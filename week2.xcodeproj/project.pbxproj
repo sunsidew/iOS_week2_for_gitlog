@@ -10,6 +10,7 @@
 		9AFDA18C19779EEF001FE141 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AFDA18B19779EEF001FE141 /* Foundation.framework */; };
 		9AFDA18F19779EEF001FE141 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AFDA18E19779EEF001FE141 /* main.m */; };
 		9AFDA19319779EEF001FE141 /* week2.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9AFDA19219779EEF001FE141 /* week2.1 */; };
+		9AFDA19B1977A1E8001FE141 /* jsonManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AFDA19A1977A1E8001FE141 /* jsonManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -31,6 +32,8 @@
 		9AFDA18E19779EEF001FE141 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		9AFDA19119779EEF001FE141 /* week2-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "week2-Prefix.pch"; sourceTree = "<group>"; };
 		9AFDA19219779EEF001FE141 /* week2.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = week2.1; sourceTree = "<group>"; };
+		9AFDA1991977A1E8001FE141 /* jsonManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = jsonManager.h; path = ../jsonManager.h; sourceTree = "<group>"; };
+		9AFDA19A1977A1E8001FE141 /* jsonManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = jsonManager.m; path = ../jsonManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +76,8 @@
 		9AFDA18D19779EEF001FE141 /* week2 */ = {
 			isa = PBXGroup;
 			children = (
+				9AFDA1991977A1E8001FE141 /* jsonManager.h */,
+				9AFDA19A1977A1E8001FE141 /* jsonManager.m */,
 				9AFDA18E19779EEF001FE141 /* main.m */,
 				9AFDA19219779EEF001FE141 /* week2.1 */,
 				9AFDA19019779EEF001FE141 /* Supporting Files */,
@@ -140,6 +145,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9AFDA18F19779EEF001FE141 /* main.m in Sources */,
+				9AFDA19B1977A1E8001FE141 /* jsonManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
