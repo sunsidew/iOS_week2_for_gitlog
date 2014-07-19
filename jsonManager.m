@@ -46,21 +46,25 @@
                 NSLog(@"Str : %@", keyandobj);
                 NSLog(@"Key => %@",[keyandobj substringWithRange:NSMakeRange(0,[keyandobj rangeOfString: @":"].location)]);
                 NSLog(@"Object => %@",[keyandobj substringFromIndex:[keyandobj rangeOfString: @":"].location+1]);
-//                [dict setObject:@"Foo" forKey:@"Key_1"];
-//                [divdict addObject:[sample substringWithRange:NSMakeRange(f_idx,idx)]];
+                
+                [divdict setObject:[keyandobj substringFromIndex:[keyandobj rangeOfString: @":"].location+1]
+                         forKey:[keyandobj substringWithRange:NSMakeRange(0,[keyandobj rangeOfString: @":"].location)]];
+
                 f_idx = idx+1;
             }
         }
         
-        NSLog(@"%d ~ %d",f_idx,sample.length);
         keyandobj = [sample substringFromIndex:f_idx+1];
         NSLog(@"Key => %@",[keyandobj substringWithRange:NSMakeRange(0,[keyandobj rangeOfString: @":"].location)]);
         NSLog(@"Object => %@",[keyandobj substringFromIndex:[keyandobj rangeOfString: @":"].location+1]);
         
-        NSLog(@"%@",sample);
-//        for (int i = 0 ; i < [divdict count] ; i++) {
-//            NSLog(@"=%@=\n",divdict[i]);
-//        }
+        [divdict setObject:[keyandobj substringFromIndex:[keyandobj rangeOfString: @":"].location+1]
+                    forKey:[keyandobj substringWithRange:NSMakeRange(0,[keyandobj rangeOfString: @":"].location)]];
+        
+        for (id key in divdict) {
+            NSLog(@"key : %@, Object : %@", key, [divdict objectForKey:key]);
+        }
+
 
     } else if ([selector isEqualToString: @("[")]) {
         NSMutableArray * divarray = [[NSMutableArray alloc] init];
