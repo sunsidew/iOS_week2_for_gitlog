@@ -18,8 +18,8 @@ int main(int argc, const char * argv[])
 //        NSData *data = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
 //        
 //
-//        NSString *jsonString = @"{ \"id\" : 007, \"name\" : \"james\", \"weapons\" : [ gun, pen ] }";
-        NSString *jsonString = @"[{\"key1\":\"obj1\",\"key3\":\"obj3\",\"key2\":\"obj2\"},{\"obj2\":\"key2\",\"obj1\":\"key1\",\"obj3\":\"key3\"}]";
+        NSString *jsonString = @"{ \"id\" : 007, \"name\" : \"james\", \"weapons\" : [ gun, pen ] }";
+//        NSString *jsonString = @"[{\"key1\":\"obj1\",\"key3\":\"obj3\",\"key2\":\"obj2\"},{\"obj2\":\"key2\",\"obj1\":\"key1\",\"obj3\":\"key3\"}]";
         
         NSArray *keys = [NSArray arrayWithObjects:@"key1", @"key2", @"key3", nil];
         NSArray *objs = [NSArray arrayWithObjects:@"obj1", @"obj2", @"obj3", nil];
