@@ -13,33 +13,51 @@ int main(int argc, const char * argv[])
 {
 
     @autoreleasepool {
-//        NSError *jsonError;
         
-//        NSData *data = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
-//        
-//
-        NSString *jsonString = @"{ \"id\" : 007, \"name\" : \"james\", \"weapons\" : [ gun, pen ] }";
-//        NSString *jsonString = @"[{\"key1\":\"obj1\",\"key3\":\"obj3\",\"key2\":\"obj2\"},{\"obj2\":\"key2\",\"obj1\":\"key1\",\"obj3\":\"key3\"}]";
-        
-        NSArray *keys = [NSArray arrayWithObjects:@"key1", @"key2", @"key3", nil];
-        NSArray *objs = [NSArray arrayWithObjects:@"obj1", @"obj2", @"obj3", nil];
-        
-        NSArray *_objs = [NSArray arrayWithObjects:objs, @"obj2", @"obj3", nil];
-        NSDictionary *_dic = [NSDictionary dictionaryWithObjects:_objs forKeys:keys];
-        
-        NSDictionary *dict = [NSDictionary dictionaryWithObjects:objs forKeys:keys];
-        NSDictionary *dict2 = [NSDictionary dictionaryWithObjects:keys forKeys:objs];
-        NSArray *_arr = [NSArray arrayWithObjects:dict, dict2, nil];
+        NSString* sample_1 = @"{ \"id\" : 007, \"name\" : \"james\", \"weapons\" : [ gun, pen ] }";
+        NSString* sample_2 = @"[ { \"id\": \"001\", \"name\" : \"john\" }, { \"id\": \"007\", \"name\" : \"james\" } ]";
         
         jsonManager* MYjm = [[jsonManager alloc] init];
 
-        jsonString = [jsonString stringByReplacingOccurrencesOfString:@" " withString:@""];
+        sample_1 = [sample_1 stringByReplacingOccurrencesOfString:@" " withString:@""];
+        sample_2 = [sample_2 stringByReplacingOccurrencesOfString:@" " withString:@""];
         //공백 제거
-        [MYjm MYJSONSerializationFrom:jsonString];
         
-        NSLog(@"%@",[MYjm MYJSONMakerWithArray:_arr]);
-        NSLog(@"%@",[MYjm MYJSONMakerWithDictionary:_dic]);
+        NSObject* parsed;
+        parsed = [MYjm MYJSONSerializationFrom:sample_1];
+        NSLog(@"sample_1: %@",[MYjm MYJSONMakerWithDictionary:[MYjm MYJSONSerializationFrom:sample_1]]);
         
+        parsed = [MYjm MYJSONSerializationFrom:sample_2];
+        NSLog(@"sample_2: %@",[MYjm MYJSONMakerWithArray:[MYjm MYJSONSerializationFrom:sample_2]]);
+        
+        
+// 추가 샘플 테스트
+        
+        NSArray *keys = [NSArray arrayWithObjects:@"key1", @"key2", @"key3", nil];
+        NSArray *objs = [NSArray arrayWithObjects:@"obj1", [NSNumber numberWithInt:2222], @"obj3", nil];
+        
+        NSDictionary* dic = [NSDictionary dictionaryWithObjects:keys forKeys:objs];
+        NSDictionary* dic2 = [NSDictionary dictionaryWithObjects:keys forKeys:objs];
+        
+        NSArray *arr_arr = [NSArray arrayWithObjects:objs, @"obj2", @"obj3", nil];
+        NSDictionary* dic_arr = [NSDictionary dictionaryWithObjects:arr_arr forKeys:keys];
+        NSArray *arr_dic = [NSArray arrayWithObjects:dic2, @"middle", dic, nil];
+        NSDictionary* dic_dic = [NSDictionary dictionaryWithObjects:arr_dic forKeys:keys];
+        
+        // #2 test
+        
+        NSLog(@"array in array : %@",[MYjm MYJSONMakerWithArray:arr_arr]);
+        NSLog(@"array in dict : %@",[MYjm MYJSONMakerWithArray:arr_dic]);
+        
+        NSLog(@"dict in array : %@",[MYjm MYJSONMakerWithDictionary:dic_arr]);
+        NSLog(@"dict in dict : %@",[MYjm MYJSONMakerWithDictionary:dic_dic]);
+        
+        // #1 test
+        
+        NSLog(@"a.i.a : %@",[MYjm MYJSONMakerWithArray:[MYjm MYJSONSerializationFrom:[MYjm MYJSONMakerWithArray:arr_arr]]]);
+        NSLog(@"a.i.d : %@",[MYjm MYJSONMakerWithArray:[MYjm MYJSONSerializationFrom:[MYjm MYJSONMakerWithArray:arr_dic]]]);
+        NSLog(@"d.i.a : %@",[MYjm MYJSONMakerWithDictionary:[MYjm MYJSONSerializationFrom:[MYjm MYJSONMakerWithDictionary:dic_arr]]]);
+        NSLog(@"d.i.d : %@",[MYjm MYJSONMakerWithDictionary:[MYjm MYJSONSerializationFrom:[MYjm MYJSONMakerWithDictionary:dic_dic]]]);
     }
     return 0;
 }
