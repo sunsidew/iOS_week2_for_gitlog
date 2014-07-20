@@ -13,15 +13,17 @@ int main(int argc, const char * argv[])
 {
 
     @autoreleasepool {
+        // ------ pdf 자료 첨부 샘플 테스트 ------
         
         NSString* sample_1 = @"{ \"id\" : 007, \"name\" : \"james\", \"weapons\" : [ gun, pen ] }";
         NSString* sample_2 = @"[ { \"id\": \"001\", \"name\" : \"john\" }, { \"id\": \"007\", \"name\" : \"james\" } ]";
         
         jsonManager* MYjm = [[jsonManager alloc] init];
 
+//        아래 코드를 사용할 경우 컨텐츠 내부의 공백(ex: " james ")도 모두 제거되는 문제가 있으므로 각 element마다 공백을 trim 하는 방식으로 변경
+        
 //        sample_1 = [sample_1 stringByReplacingOccurrencesOfString:@" " withString:@""];
 //        sample_2 = [sample_2 stringByReplacingOccurrencesOfString:@" " withString:@""];
-        //공백 제거
         
         NSObject* parsed;
         parsed = [MYjm MYJSONSerializationFrom:sample_1];
@@ -31,7 +33,7 @@ int main(int argc, const char * argv[])
         NSLog(@"sample_2: %@",[MYjm MYJSONMakerWithArray:[MYjm MYJSONSerializationFrom:sample_2]]);
         
         
-// 추가 샘플 테스트
+        // ------ 추가 샘플 테스트 ------
         
         NSArray *keys = [NSArray arrayWithObjects:@"key1", @"key2", @"key3", nil];
         NSArray *objs = [NSArray arrayWithObjects:@"obj1", [NSNumber numberWithInt:2222], @"obj3", nil];
