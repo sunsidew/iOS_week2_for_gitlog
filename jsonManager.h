@@ -10,7 +10,7 @@
 
 @interface jsonManager : NSObject
 
-- (id) MYJSONSerializationFrom:(NSString *)jsonString;
+- (NSObject*) MYJSONSerializationFrom:(NSString *)jsonString;
 - (NSString*) MYJSONMakerWithArray:(NSArray*)array;
 - (NSString*) MYJSONMakerWithDictionary:(NSDictionary*)dictionary;
 

@@ -21,12 +21,13 @@
 }
 
 - (NSObject*) MYJSONSerializationFrom:(NSString *)jsonString {
+    NSMutableString* sample = [jsonString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]; // 공백제거
+    NSString* selector = [sample substringToIndex:1]; // array, dictionary 구분
 
-    NSString* selector = [jsonString substringToIndex:1]; // array, dictionary 구분
-    NSMutableString* sample = [jsonString substringWithRange:NSMakeRange(1, jsonString.length-2)]; // trim;
-    
     if ([selector isEqualToString: @("{")] || [selector isEqualToString: @("[")]) {
+        sample = [sample substringWithRange:NSMakeRange(1, sample.length-2)]; // trim;
         
+        char idxchar;
         int level = 0;
         int f_idx = 0;
         NSString* element = [[NSString alloc] init];
@@ -37,7 +38,6 @@
 
         NSMutableArray * divarray = [[NSMutableArray alloc] init];
         NSObject* object = [[NSObject alloc] init];
-        char idxchar;
         
         for ( int idx = 0 ; idx < sample.length ; idx++) {
             idxchar = [sample characterAtIndex:idx];
@@ -47,11 +47,10 @@
                 level--;
             } else if (idxchar == ',' && level == 0) {
                 element = [sample substringWithRange:NSMakeRange(f_idx,idx-f_idx)];
-                
+
                 if ([selector isEqualToString: @("{")]) {
                     key = [self MYJSONSerializationFrom:[element substringWithRange:NSMakeRange(0,[element rangeOfString: @":"].location)]];
                     value = [self MYJSONSerializationFrom:[element substringFromIndex:[element rangeOfString: @":"].location+1]];
-                
                     [divdict setObject:value forKey:key];
                 } else {
                     object = [self MYJSONSerializationFrom:element];
@@ -83,7 +82,7 @@
         }
         
     } else {
-        return [jsonString stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+        return [sample stringByReplacingOccurrencesOfString:@"\"" withString:@""];
     }
 }
 

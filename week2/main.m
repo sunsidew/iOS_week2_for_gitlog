@@ -19,8 +19,8 @@ int main(int argc, const char * argv[])
         
         jsonManager* MYjm = [[jsonManager alloc] init];
 
-        sample_1 = [sample_1 stringByReplacingOccurrencesOfString:@" " withString:@""];
-        sample_2 = [sample_2 stringByReplacingOccurrencesOfString:@" " withString:@""];
+//        sample_1 = [sample_1 stringByReplacingOccurrencesOfString:@" " withString:@""];
+//        sample_2 = [sample_2 stringByReplacingOccurrencesOfString:@" " withString:@""];
         //공백 제거
         
         NSObject* parsed;
