@@ -25,70 +25,59 @@
     NSMutableString* sample = [jsonString substringWithRange:NSMakeRange(1, jsonString.length-2)]; // trim;
     NSString* selector = [jsonString substringToIndex:1]; // array, dictionary 구분
     
-    if ([selector isEqualToString: @("{")]) {
+    if ([selector isEqualToString: @("{")] || [selector isEqualToString: @("[")]) {
         NSMutableDictionary * divdict = [[NSMutableDictionary alloc] init];
-        
-        int level = 0;
-        int f_idx = 0;
-        NSString* keyandobj = [[NSString alloc] init];
-        NSObject* dickey = [[NSObject alloc] init];
-        NSObject* dicvalue = [[NSObject alloc] init];
-        
-        for ( int idx = 0 ; idx < sample.length ; idx++) {
-            if ([sample characterAtIndex:idx] == '{' || [sample characterAtIndex:idx] == '[') {
-                level++;
-            } else if ([sample characterAtIndex:idx] == '}' || [sample characterAtIndex:idx] == ']') {
-                level--;
-            } else if ([sample characterAtIndex:idx] == ',' && level == 0) {
-                keyandobj = [sample substringWithRange:NSMakeRange(f_idx,idx-f_idx)];
-                                
-                dickey = [self MYJSONSerializationFrom:[keyandobj substringWithRange:NSMakeRange(0,[keyandobj rangeOfString: @":"].location)]];
-                dicvalue = [self MYJSONSerializationFrom:[keyandobj substringFromIndex:[keyandobj rangeOfString: @":"].location+1]];
-                
-                [divdict setObject:dicvalue forKey:dickey];
-
-                f_idx = idx+1;
-            }
-        }
-        
-        
-        keyandobj = [sample substringFromIndex:f_idx];
-        
-        dickey = [self MYJSONSerializationFrom:[keyandobj substringWithRange:NSMakeRange(0,[keyandobj rangeOfString: @":"].location)]];
-        dicvalue = [self MYJSONSerializationFrom:[keyandobj substringFromIndex:[keyandobj rangeOfString: @":"].location+1]];
-
-        [divdict setObject:dicvalue forKey:dickey];
-        
-        return divdict;
-
-
-    } else if ([selector isEqualToString: @("[")]) {
         NSMutableArray * divarray = [[NSMutableArray alloc] init];
-        NSObject* object = [[NSObject alloc] init];
-
+        
         int level = 0;
         int f_idx = 0;
+
+        NSObject* key = [[NSObject alloc] init];
+        NSObject* value = [[NSObject alloc] init];
+        NSObject* object = [[NSObject alloc] init];
+        NSString* element = [[NSString alloc] init];
+        
         for ( int idx = 0 ; idx < sample.length ; idx++) {
             if ([sample characterAtIndex:idx] == '{' || [sample characterAtIndex:idx] == '[') {
                 level++;
             } else if ([sample characterAtIndex:idx] == '}' || [sample characterAtIndex:idx] == ']') {
                 level--;
             } else if ([sample characterAtIndex:idx] == ',' && level == 0) {
-//                if ([object isKindOfClass:NSArray.class]) {
-//                    object = [NSString stringWithFormat:@"\"%@\"",object];
-//                }
+                if ([selector isEqualToString: @("{")]) {
+                    
+                    element = [sample substringWithRange:NSMakeRange(f_idx,idx-f_idx)];
+                                
+                    key = [self MYJSONSerializationFrom:[element substringWithRange:NSMakeRange(0,[element rangeOfString: @":"].location)]];
+                    value = [self MYJSONSerializationFrom:[element substringFromIndex:[element rangeOfString: @":"].location+1]];
                 
-                object = [self MYJSONSerializationFrom:[sample substringWithRange:NSMakeRange(f_idx,idx-f_idx)]];
+                    [divdict setObject:value forKey:key];
+                } else {
+                    object = [self MYJSONSerializationFrom:[sample substringWithRange:NSMakeRange(f_idx,idx-f_idx)]];
+                    
+                    [divarray addObject:object];
+                }
 
-                [divarray addObject:object];
                 f_idx = idx+1;
             }
         }
         
-        object = [self MYJSONSerializationFrom:[sample substringFromIndex:f_idx]];
-        [divarray addObject:object];
+        element = [sample substringFromIndex:f_idx];
         
-        return divarray;
+        if ([selector isEqualToString: @("{")]) {
+        
+            key = [self MYJSONSerializationFrom:[element substringWithRange:NSMakeRange(0,[element rangeOfString: @":"].location)]];
+            value = [self MYJSONSerializationFrom:[element substringFromIndex:[element rangeOfString: @":"].location+1]];
+
+            [divdict setObject:value forKey:key];
+        
+            return divdict;
+        } else {
+            object = [self MYJSONSerializationFrom:element];
+            [divarray addObject:object];
+        
+            return divarray;
+        }
+        
     } else {
         return [jsonString stringByReplacingOccurrencesOfString:@"\"" withString:@""];
     }
